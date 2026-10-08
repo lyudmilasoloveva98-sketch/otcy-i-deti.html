@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка ДЗ: Отцы и дети · Тургенев</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f5f0e7;
+            color: #2c2c2c;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #3e2e1f;
+            letter-spacing: 1px;
+            border-bottom: 3px solid #b99b7b;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        .sub {
+            font-size: 1.1rem;
+            color: #6b4f3a;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            flex: 1 1 300px;
+            border: 1px solid #e2d6c8;
+            transition: 0.2s;
+        }
+        .card:hover {
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+        }
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #5e3e2b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 6px solid #b99b7b;
+            padding-left: 15px;
+        }
+        .question {
+            margin-bottom: 22px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #dacfc2;
+        }
+        .question:last-child {
+            border-bottom: none;
+        }
+        .question p {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #faf7f2;
+            padding: 8px 14px;
+            border-radius: 40px;
+            border: 1px solid #e6dbce;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .option:hover {
+            background: #f0e6da;
+        }
+        .option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #8b6b4d;
+            cursor: pointer;
+        }
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
+        }
+        .truefalse {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        .tf-btn {
+            background: #faf7f2;
+            border: 1px solid #d6c8b8;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            flex: 1;
+            text-align: center;
+        }
+        .tf-btn.selected-true {
+            background: #a7c9a7;
+            border-color: #4e7a4e;
+            color: #1e3a1e;
+        }
+        .tf-btn.selected-false {
+            background: #e6b8b8;
+            border-color: #a14f4f;
+            color: #4a1e1e;
+        }
+        .tf-btn:hover {
+            background: #e6dbce;
+        }
+        .btn-check {
+            background: #8b6b4d;
+            color: white;
+            border: none;
+            padding: 14px 22px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-check:hover {
+            background: #6f543d;
+            transform: scale(1.01);
+        }
+        .btn-check:active {
+            transform: scale(0.99);
+        }
+        .result {
+            margin-top: 18px;
+            background: #f2ebe2;
+            border-radius: 18px;
+            padding: 16px;
+            font-weight: 500;
+            border-left: 5px solid #b99b7b;
+        }
+        .correct {
+            color: #1e6b3e;
+            background: #dff0df;
+            border-left-color: #2e7d32;
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+        .incorrect {
+            color: #9b2c2c;
+            background: #ffe6e6;
+            border-left-color: #b33a3a;
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+        .explain {
+            font-size: 0.95rem;
+            color: #4e3e2e;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        footer {
+            text-align: center;
+            margin-top: 45px;
+            font-size: 0.9rem;
+            color: #8f7a66;
+        }
+        @media (max-width: 700px) {
+            .grid {
+                flex-direction: column;
+            }
+            h1 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📖 «Отцы и дети»</h1>
+        <div class="sub">Проверка знания сюжета · И.С. Тургенев</div>
+    </header>
+
+    <div class="grid">
+        <!-- Блок 1: Тест с выбором ответа -->
+        <div class="card">
+            <h2>🔘 Выбор ответа</h2>
+            <div id="quiz1">
+                <div class="question" data-correct="b">
+                    <p>1. Кто приезжает вместе с Аркадием Кирсановым в Марьино?</p>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q1" value="a" id="q1a"><label for="q1a">Павел Петрович</label></div>
+                        <div class="option"><input type="radio" name="q1" value="b" id="q1b"><label for="q1b">Евгений Базаров</label></div>
+                        <div class="option"><input type="radio" name="q1" value="c" id="q1c"><label for="q1c">Николай Петрович</label></div>
+                        <div class="option"><input type="radio" name="q1" value="d" id="q1d"><label for="q1d">Ситников</label></div>
+                    </div>
+                </div>
+                <div class="question" data-correct="c">
+                    <p>2. Как называется имение Кирсановых, куда приезжают герои?</p>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q2" value="a" id="q2a"><label for="q2a">Никольское</label></div>
+                        <div class="option"><input type="radio" name="q2" value="b" id="q2b"><label for="q2b">Базаровка</label></div>
+                        <div class="option"><input type="radio" name="q2" value="c" id="q2c"><label for="q2c">Марьино</label></div>
+                        <div class="option"><input type="radio" name="q2" value="d" id="q2d"><label for="q2d">Одинцово</label></div>
+                    </div>
+                </div>
+                <div class="question" data-correct="a">
+                    <p>3. Кто из героев является главным «нигилистом»?</p>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q3" value="a" id="q3a"><label for="q3a">Евгений Базаров</label></div>
+                        <div class="option"><input type="radio" name="q3" value="b" id="q3b"><label for="q3b">Аркадий Кирсанов</label></div>
+                        <div class="option"><input type="radio" name="q3" value="c" id="q3c"><label for="q3c">Павел Петрович</label></div>
+                        <div class="option"><input type="radio" name="q3" value="d" id="q3d"><label for="q3d">Николай Петрович</label></div>
+                    </div>
+                </div>
+                <div class="question" data-correct="d">
+                    <p>4. Что произошло на дуэли между Базаровым и Павлом Петровичем?</p>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q4" value="a" id="q4a"><label for="q4a">Базаров убит</label></div>
+                        <div class="option"><input type="radio" name="q4" value="b" id="q4b"><label for="q4b">Павел Петрович убит</label></div>
+                        <div class="option"><input type="radio" name="q4" value="c" id="q4c"><label for="q4c">Оба остались невредимы</label></div>
+                        <div class="option"><input type="radio" name="q4" value="d" id="q4d"><label for="q4d">Павел Петрович ранен в ногу</label></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-check" onclick="checkQuiz1()">Проверить тест</button>
+            <div id="quiz1Result" class="result"></div>
+        </div>
+
+        <!-- Блок 2: Верно/Неверно -->
+        <div class="card">
+            <h2>✅ Верно / ❌ Неверно</h2>
+            <div id="tfBlock">
+                <div class="question" data-correct="true">
+                    <p>1. Базаров влюбился в Анну Сергеевну Одинцову.</p>
+                    <div class="truefalse">
+                        <div class="tf-btn" onclick="selectTF(this, 'true')">Верно</div>
+                        <div class="tf-btn" onclick="selectTF(this, 'false')">Неверно</div>
+                    </div>
+                </div>
+                <div class="question" data-correct="false">
+                    <p>2. Аркадий Кирсанов полностью разделял взгляды Базарова и остался нигилистом до конца.</p>
+                    <div class="truefalse">
+                        <div class="tf-btn" onclick="selectTF(this, 'true')">Верно</div>
+                        <div class="tf-btn" onclick="selectTF(this, 'false')">Неверно</div>
+                    </div>
+                </div>
+                <div class="question" data-correct="true">
+                    <p>3. Фенечка — это женщина, которую любил Николай Петрович Кирсанов.</p>
+                    <div class="truefalse">
+                        <div class="tf-btn" onclick="selectTF(this, 'true')">Верно</div>
+                        <div class="tf-btn" onclick="selectTF(this, 'false')">Неверно</div>
+                    </div>
+                </div>
+                <div class="question" data-correct="false">
+                    <p>4. Базаров умер от сердечного приступа в конце романа.</p>
+                    <div class="truefalse">
+                        <div class="tf-btn" onclick="selectTF(this, 'true')">Верно</div>
+                        <div class="tf-btn" onclick="selectTF(this, 'false')">Неверно</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-check" onclick="checkTF()">Проверить утверждения</button>
+            <div id="tfResult" class="result"></div>
+        </div>
+
+        <!-- Блок 3: Кто это? (соотнесение) -->
+        <div class="card">
+            <h2>🧑‍🤝‍🧑 Угадай героя</h2>
+            <div id="matchBlock">
+                <div class="question" data-correct="1">
+                    <p>1. «Высокий, худой, с длинными волосами, в длинном балахоне с кистями» — это...</p>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="m1" value="0" id="m1a"><label for="m1a">Павел Петрович</label></div>
+                        <div class="option"><input type="radio" name="m1" value="1" id="m1b"><label for="m1b">Евгений Базаров</label></div>
+                        <div class="option"><input type="radio" name="m1" value="2" id="m1c"><label for="m1c">Аркадий</label></div>
+                        <div class="option"><input type="radio" name="m1" value="3" id="m1d"><label for="m1d">Николай Петрович</label></div>
+                    </div>
+                </div>
+                <div class="question" data-correct="2">
+                    <p>2. Кто из братьев Кирсановых служил в гвардии и был аристократом?</p>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="m2" value="0" id="m2a"><label for="m2a">Николай Петрович</label></div>
+                        <div class="option"><input type="radio" name="m2" value="1" id="m2b"><label for="m2b">Аркадий</label></div>
+                        <div class="option"><input type="radio" name="m2" value="2" id="m2c"><label for="m2c">Павел Петрович</label></div>
+                        <div class="option"><input type="radio" name="m2" value="3" id="m2d"><label for="m2d">Базаров</label></div>
+                    </div>
+                </div>
+                <div class="question" data-correct="0">
+                    <p>3. «Умная, красивая, вдова», в которую влюбился Базаров — это...</p>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="m3" value="0" id="m3a"><label for="m3a">Анна Одинцова</label></div>
+                        <div class="option"><input type="radio" name="m3" value="1" id="m3b"><label for="m3b">Фенечка</label></div>
+                        <div class="option"><input type="radio" name="m3" value="2" id="m3c"><label for="m3c">Катя</label></div>
+                        <div class="option"><input type="radio" name="m3" value="3" id="m3d"><label for="m3d">Кукшина</label></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-check" onclick="checkMatch()">Проверить героев</button>
+            <div id="matchResult" class="result"></div>
+        </div>
+    </div>
+
+    <footer>Интерактивная проверка ДЗ · «Отцы и дети» · 2025</footer>
+</div>
+
+<script>
+    // ----- Блок 1: выбор ответа -----
+    function checkQuiz1() {
+        const questions = document.querySelectorAll('#quiz1 .question');
+        let correctCount = 0;
+        let total = questions.length;
+        let resultHtml = '';
+
+        questions.forEach((q, idx) => {
+            const correct = q.dataset.correct;
+            const selected = q.querySelector('input[type="radio"]:checked');
+            const questionText = q.querySelector('p').innerText;
+
+            if (selected && selected.value === correct) {
+                correctCount++;
+                resultHtml += `<div class="correct">✔ Вопрос ${idx+1}: верно</div>`;
+            } else {
+                let correctLabel = '';
+                const correctInput = q.querySelector(`input[value="${correct}"]`);
+                if (correctInput) {
+                    const label = correctInput.nextElementSibling;
+                    correctLabel = label ? label.innerText : correct;
+                }
+                resultHtml += `<div class="incorrect">✘ Вопрос ${idx+1}: неверно. Правильный ответ: <strong>${correctLabel}</strong></div>`;
+            }
+        });
+
+        const resultDiv = document.getElementById('quiz1Result');
+        resultDiv.innerHTML = `<p><strong>Результат: ${correctCount} из ${total}</strong></p>${resultHtml}`;
+    }
+
+    // ----- Блок 2: Верно/Неверно -----
+    function selectTF(element, value) {
+        // Снимаем выделение у соседей по вопросу
+        const parentQuestion = element.closest('.question');
+        const buttons = parentQuestion.querySelectorAll('.tf-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('selected-true', 'selected-false');
+        });
+        if (value === 'true') {
+            element.classList.add('selected-true');
+            parentQuestion.dataset.selected = 'true';
+        } else {
+            element.classList.add('selected-false');
+            parentQuestion.dataset.selected = 'false';
+        }
+    }
+
+    function checkTF() {
+        const questions = document.querySelectorAll('#tfBlock .question');
+        let correctCount = 0;
+        let total = questions.length;
+        let resultHtml = '';
+
+        questions.forEach((q, idx) => {
+            const correct = q.dataset.correct; // 'true' или 'false'
+            const selected = q.dataset.selected; // 'true', 'false' или undefined
+            const questionText = q.querySelector('p').innerText;
+
+            if (selected === correct) {
+                correctCount++;
+                resultHtml += `<div class="correct">✔ Вопрос ${idx+1}: верно</div>`;
+            } else {
+                let correctDisplay = correct === 'true' ? 'Верно' : 'Неверно';
+                resultHtml += `<div class="incorrect">✘ Вопрос ${idx+1}: неверно. Правильный ответ: <strong>${correctDisplay}</strong></div>`;
+            }
+        });
+
+        const resultDiv = document.getElementById('tfResult');
+        resultDiv.innerHTML = `<p><strong>Результат: ${correctCount} из ${total}</strong></p>${resultHtml}`;
+    }
+
+    // ----- Блок 3: соответствие -----
+    function checkMatch() {
+        const questions = document.querySelectorAll('#matchBlock .question');
+        let correctCount = 0;
+        let total = questions.length;
+        let resultHtml = '';
+
+        questions.forEach((q, idx) => {
+            const correctValue = q.dataset.correct;
+            const selected = q.querySelector('input[type="radio"]:checked');
+            const questionText = q.querySelector('p').innerText;
+
+            if (selected && selected.value === correctValue) {
+                correctCount++;
+                resultHtml += `<div class="correct">✔ Вопрос ${idx+1}: верно</div>`;
+            } else {
+                // Находим правильный вариант для отображения
+                const correctInput = q.querySelector(`input[value="${correctValue}"]`);
+                let correctLabel = '';
+                if (correctInput) {
+                    const label = correctInput.nextElementSibling;
+                    correctLabel = label ? label.innerText : correctValue;
+                }
+                resultHtml += `<div class="incorrect">✘ Вопрос ${idx+1}: неверно. Правильный ответ: <strong>${correctLabel}</strong></div>`;
+            }
+        });
+
+        const resultDiv = document.getElementById('matchResult');
+        resultDiv.innerHTML = `<p><strong>Результат: ${correctCount} из ${total}</strong></p>${resultHtml}`;
+    }
+
+    // Сброс выбора для radio (не обязательно, но оставим)
+    window.onload = function() {
+        // Можно добавить сброс, но не требуется
+    };
+</script>
+</body>
+</html>
